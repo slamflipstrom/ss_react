@@ -7,9 +7,18 @@ class App extends Component {
     super()
     let cards = cardValues();
     this.state = {
-      cards: cards
+      cards: cards,
+      selectedCard: '',
+      player: '' 
     }
+    this.handleCurrentCard = this.handleCurrentCard.bind(this)
   }
+  
+  handleCurrentCard(evt){
+    this.setState({
+      selectedCard: evt.target.attributes[1].value})
+  }
+
   render() {
     return (
       <div className="App">
@@ -17,23 +26,30 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>React Somerset</h2>
         </div>
+          <div>
+            {this.state.cards.map(card => <div key={card.id} className="card" onClick={(evt) => this.handleCurrentCard(evt)} value={card.value+"/"+card.suit}><span>{card.value}/{card.suit}</span></div>)}
+          </div>
         <BoardComponent>
         </BoardComponent>
       </div>
     );
   }
 }
-
 class BoardComponent extends Component {
-  renderCard(){
+  renderCard(i){
+    const cards = this.props.cards;
+
+    // return <Square value={squares[i]} onClick={() => this.props.onClick(i)} />;
     return (
-      <CardComponent />
+      <CardComponent value={cards[i]} onClick={() => console.log(i)}/>
     ); 
   }
   
   render() {
     return (
       <div className="board">
+        <CardComponent></CardComponent>
+        <CardComponent></CardComponent>
         <CardComponent></CardComponent>
         <ScoreComponent></ScoreComponent>
       </div>
@@ -56,7 +72,7 @@ class CardValueComponent extends Component {
   render() {
     return (
       <div className="card-value">
-        <span></span> 
+        <span>{this.props.value}</span> 
       </div>
     );
   }
@@ -64,7 +80,7 @@ class CardValueComponent extends Component {
 
 function cardValues() {
       return [
-        {id: 1, value: 'S', suit: 'S'},
+       {id: 1, value: 'S', suit: 'S'},
         {id: 2, value: 0, suit: 0},
         {id: 3, value: 0, suit: 2},
         {id: 4, value: 1, suit: 2},
@@ -136,9 +152,6 @@ class ScoreComponent extends Component {
     );
   }
 }
-
-
-
 
 
 export default App;
