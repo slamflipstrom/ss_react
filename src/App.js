@@ -2,21 +2,35 @@ import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+import { CardComponent } from './components/Card'
+
 class App extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     let cards = cardValues();
     this.state = {
       cards: cards,
+      numPlayers: 0,
       selectedCard: '',
-      player: '' 
+      playerTurn: '',
+      history: {} 
     }
     this.handleCurrentCard = this.handleCurrentCard.bind(this)
   }
   
   handleCurrentCard(evt){
     this.setState({
-      selectedCard: evt.target.attributes[1].value})
+      selectedCard: evt.target.attributes[1].value
+    })
+  }
+
+  startGame(){
+  }
+
+  setNumPlayers(){
+    // this.setState({
+    //   numPlayers: 2
+    // })
   }
 
   render() {
@@ -26,53 +40,31 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>React Somerset</h2>
         </div>
+        <h1>Start Game</h1>
+        <h2>Selected Card:{this.state.selectedCard}</h2>
           <div>
-            {this.state.cards.map(card => <div key={card.id} className="card" onClick={(evt) => this.handleCurrentCard(evt)} value={card.value+"/"+card.suit}><span>{card.value}/{card.suit}</span></div>)}
+            {this.state.cards.map(card => <CardComponent card={card} handleCurrentCard={this.handleCurrentCard} key={card.id} className="card" />)}
           </div>
-        <BoardComponent>
-        </BoardComponent>
       </div>
     );
   }
 }
-class BoardComponent extends Component {
-  renderCard(i){
-    const cards = this.props.cards;
 
-    // return <Square value={squares[i]} onClick={() => this.props.onClick(i)} />;
-    return (
-      <CardComponent value={cards[i]} onClick={() => console.log(i)}/>
-    ); 
-  }
+class BoardComponent extends Component {
+  // renderCard(i){
+  //   const cards = this.props.cards;
+
+  //   // return <Square value={squares[i]} onClick={() => this.props.onClick(i)} />;
+  //   return (
+  //     <CardComponent value={cards[i]} onClick={() => console.log(i)}/>
+  //   ); 
+//  }
   
   render() {
     return (
       <div className="board">
-        <CardComponent></CardComponent>
-        <CardComponent></CardComponent>
-        <CardComponent></CardComponent>
+        <CardComponent props={this.props}></CardComponent>
         <ScoreComponent></ScoreComponent>
-      </div>
-    );
-  }
-}
-
-class CardComponent extends Component {
-  render() {
-    return (
-      <div className="card">
-        <PointValueComponent></PointValueComponent>
-        <CardValueComponent></CardValueComponent>
-      </div>
-    );
-  }
-}
-
-class CardValueComponent extends Component {
-  render() {
-    return (
-      <div className="card-value">
-        <span>{this.props.value}</span> 
       </div>
     );
   }
@@ -133,25 +125,11 @@ function cardValues() {
       ];
     }
 
-class PointValueComponent extends Component {
-  render() {
-    return (
-      <div className="point-value">
-        <h3>Point value TEST!</h3>
-      </div>
-    );
-  }
-}
-
-class ScoreComponent extends Component {
-  render() {
-    return (
-      <div className="score">
-        <h2>Score TEST!</h2>
-      </div>
-    );
-  }
-}
+const ScoreComponent = () => (
+  <div className="score">
+    <h2>Score TEST!</h2>
+  </div>
+)
 
 
 export default App;
