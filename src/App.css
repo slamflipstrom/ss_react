@@ -5,6 +5,12 @@
   width: 60px;
 }
 
+button{
+  border-radius: .2em;
+  font-size: 2em;
+  margin: 1em;
+}
+
 .App {
   text-align: center;
 }

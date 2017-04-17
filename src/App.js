@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { createStore } from 'redux';
+import * as actions from './client.js';
 import logo from './logo.svg';
 import './App.css';
 
@@ -16,22 +16,8 @@ class App extends Component {
       playerTurn: '',
       history: {} 
     }
-    this.handleCurrentCard = this.handleCurrentCard.bind(this)
   }
   
-  handleCurrentCard(evt){
-    this.setState({
-    })
-  }
-
-  startGame(){
-  }
-
-  setNumPlayers(){
-    // this.setState({
-    //   numPlayers: 2
-    // })
-  }
 
   render() {
     return (
@@ -40,7 +26,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h2>React Somerset</h2>
         </div>
-        <h1>Start Game</h1>
+        <button onClick={actions}>Start Game</button>
         <h2>Selected Card:{this.state.selectedCard}</h2>
           <div>
             {this.state.cards.map(card => <CardComponent card={card} handleCurrentCard={this.handleCurrentCard} key={card.id} className="card" />)}
@@ -130,6 +116,5 @@ const ScoreComponent = () => (
     <h2>Score TEST!</h2>
   </div>
 )
-
 
 export default App;
